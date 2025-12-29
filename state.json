@@ -1,0 +1,9 @@
+{
+  "currentPath": "/projects",
+  "history": [],
+  "viewMode": "list",
+  "currentFile": "/projects/ejemplo_web/index.html",
+  "editorFont": "16",
+  "explorerFont": "20",
+  "code": "<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Proyecto de prueba</title>\n<style>\nbody {\n  font-family: sans-serif;\n  background: #1e90ff;\n  color: white;\n  text-align: center;\n  padding-top: 40px;\n}\n</style>\n</head>\n<body>\n\n<h1>✅ Funciona la vista previa</h1>\n<p>Este proyecto se carga localmente</p>\n\n</body>\n</html>\n"
+}
