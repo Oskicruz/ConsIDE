@@ -2,58 +2,63 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>consoIDE Pro - Full File Manager</title>
+<title>consoIDE Pro - Funcionalidad Restaurada</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
-/* 1. BASE Y RESET */
+/* 1. BASE Y RESET (Mantenido igual) */
 * { touch-action: manipulation; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
 textarea, pre, input { user-select: text !important; -webkit-user-select: text !important; }
 body { margin:0; font-family: monospace; background:#0b0b0b; color:#ddd; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-header { padding:10px; background:#111; border-bottom:1px solid #222; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-button, select, input { background:#222; color:#ddd; border:1px solid #333; padding:8px; font-size: 14px !important; border-radius: 4px; outline: none; }
 
-/* 2. EXPLORADOR Y MENÚ CONTEXTUAL */
+/* HEADER */
+header { padding:10px; background:#111; border-bottom:1px solid #222; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.header-right { margin-left: auto; display: flex; gap: 8px; }
+button, select, input { background:#222; color:#ddd; border:1px solid #333; padding:8px; font-size: 14px !important; border-radius: 4px; outline: none; cursor: pointer; }
+
+/* 2. ESTRUCTURA PRINCIPAL */
 .main-wrapper { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
 .top-section { display: flex; height: 50%; border-bottom: 2px solid #333; }
+
+/* EXPLORADOR */
 #explorer-container { width: 30%; border-right: 1px solid #222; display: flex; flex-direction: column; background: #0d0d0d; }
 #explorer { flex: 1; overflow-y: auto; padding: 5px; position: relative; }
+.explorer-controls { padding: 8px; border-top: 1px solid #222; }
 
+/* MODO ICONOS */
 .grid-mode { display: flex !important; flex-wrap: wrap; gap: 10px; padding: 10px; align-content: flex-start; }
 .grid-mode .file-item { flex-direction: column; text-align: center; width: 75px; border: none !important; }
 .grid-mode .file-item span { font-size: 28px; display: block; }
 .file-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #1a1a1a; cursor: pointer; gap: 8px; }
 
-/* Menú Contextual Flotante */
-#context-menu { position: fixed; background: #1a1a1a; border: 1px solid #444; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 1000; display: none; min-width: 150px; border-radius: 4px; }
-#context-menu div { padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer; font-size: 14px; }
-#context-menu div:last-child { border: none; }
-#context-menu div:active { background: #333; }
-
-/* 3. EDITOR E INPUT */
+/* EDITOR */
 #main-editor { width: 40%; padding: 8px; display: flex; flex-direction: column; border-right: 1px solid #222; overflow: hidden; }
-.input-group { display: flex; width: 100%; gap: 4px; margin-bottom: 5px; flex-shrink: 0; }
-#input-line { flex: 1; background: #111; color: #0f0; border: 1px solid #444; }
-
 #editor-viewport { position: relative; flex: 1; display: flex; background: #000; border: 1px solid #222; overflow: hidden; }
 #line-numbers { width: 35px; background: #151515; color: #555; border-right: 1px solid #222; position: relative; overflow: hidden; flex-shrink: 0; }
 .ln-num { position: absolute; right: 5px; width: 100%; text-align: right; font-family: 'Courier New', monospace; }
 
 #code-wrapper { position: relative; flex: 1; overflow: hidden; }
-#code-ghost { position: absolute; visibility: hidden; pointer-events: none; white-space: pre-wrap; word-wrap: break-word; width: 100%; font-family: 'Courier New', monospace !important; padding: 10px; }
 #code { width: 100%; height: 100%; background: transparent; color: #cfe; border: none; padding: 10px; resize: none; font-family: 'Courier New', monospace !important; z-index: 2; position: relative; white-space: pre-wrap; word-wrap: break-word; overflow-y: auto; outline: none; }
 
-#error-highlight { position: absolute; top: 0; left: 0; right: 0; pointer-events: none; z-index: 1; }
-.error-line { position: absolute; left: 0; right: 0; background: rgba(255, 0, 0, 0.3); border-bottom: 2px solid #ff4444; }
+/* CONTROLES EDITOR */
+.editor-controls { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.input-group { display: flex; gap: 4px; }
+#input-line { flex: 1; background: #111; color: #0f0; border: 1px solid #444; }
 
-/* 4. CONSOLA Y GRÁFICO */
+/* CONSOLA */
 #console-panel { width: 30%; display: flex; flex-direction: column; background: #050505; }
 #output { background: #000; color: #cfe; padding: 10px; flex: 1; overflow: auto; margin: 0; white-space: pre-wrap; font-size: 13px; }
-.solution-box { color: #f90; font-weight: bold; margin-top: 10px; padding: 8px; border: 1px dashed #444; background: rgba(255,153,0,0.1); }
+.console-controls { padding: 8px; border-top: 1px solid #222; }
+
+/* MENÚ CONTEXTUAL */
+#context-menu { position: fixed; background: #1f1f1f; border: 1px solid #444; z-index: 1000; display: none; min-width: 160px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+#context-menu div { padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer; font-size: 14px; }
+#context-menu div:last-child { border-bottom: none; }
+#context-menu div:hover { background: #333; }
 
 #visual-panel { height: 50%; background: #fff; display: block; }
-#visual-box { width: 100%; height: 100%; border: none; }
-.panel-label { padding: 4px 8px; background: #222; font-size: 10px; color: #888; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+#visual-box { width: 100%; height: 100%; border: none; background: white; }
+.panel-label { padding: 4px 8px; background: #222; font-size: 10px; color: #888; text-transform: uppercase; }
 </style>
 </head>
 
@@ -62,11 +67,17 @@ button, select, input { background:#222; color:#ddd; border:1px solid #333; padd
 <header>
     <button onclick="goBack()">⬅</button>
     <button onclick="toggleExplorerMode()">🔄 Vista</button>
-    <button onclick="showCreateMenu()" style="background:#224;">➕ Nuevo</button>
+    <button onclick="createFile()" style="background:#1a3a5a;">📄+ Archivo</button>
+    <button onclick="createFolder()" style="background:#1a5a3a;">📁+ Carpeta</button>
+    <button onclick="subirAGitHub()" style="background:#24292e; color:white;">🐙 GitHub</button>
     <button onclick="toggleVisual()" style="background:#333;">🖼️ Gráfico</button>
     <button onclick="resetPath()">🏠</button>
-    <select id="explorerFontSelect" onchange="changeExpFont(this.value)"></select>
-    <select id="editorFontSelect" onchange="changeEdFont(this.value)"></select>
+    
+    <div class="header-right">
+        <select id="explorerFontSelect" onchange="changeExpFont(this.value)"></select>
+        <select id="editorFontSelect" onchange="changeEdFont(this.value)"></select>
+        <button onclick="saveFile()" style="background: #a52a2a; font-weight: bold;">💾 GUARDAR</button>
+    </div>
 </header>
 
 <div id="context-menu"></div>
@@ -76,31 +87,38 @@ button, select, input { background:#222; color:#ddd; border:1px solid #333; padd
         <div id="explorer-container">
             <div class="panel-label">Explorador</div>
             <div id="explorer"></div>
+            <div class="explorer-controls">
+                <button onclick="loadDir()" style="width:100%; color:#0f0; border-color:#0f0;">🔄 Actualizar</button>
+            </div>
         </div>
 
         <div id="main-editor">
-            <div class="input-group">
-                <input type="text" id="input-line" placeholder="Input para script...">
-                <button onclick="sendInput()">Enviar</button>
-            </div>
-            <div style="display:flex; gap:4px; margin-bottom:5px;">
-                <button onclick="runCode()" style="background: #1a4d1a; flex:1;">▶ Ejecutar</button>
-                <button onclick="saveFile()">💾</button>
-                <button onclick="clearEditor()">🧽</button>
-            </div>
+            <div class="panel-label">Editor</div>
             <div id="editor-viewport">
                 <div id="line-numbers"></div>
                 <div id="code-wrapper">
-                    <div id="code-ghost"></div>
-                    <div id="error-highlight"></div>
                     <textarea id="code" spellcheck="false" oninput="updateLines()" onscroll="syncScroll()"></textarea>
+                </div>
+            </div>
+            
+            <div class="editor-controls">
+                <div class="input-group">
+                    <input type="text" id="input-line" placeholder="Input para script...">
+                    <button onclick="sendInput()">Enviar</button>
+                </div>
+                <div style="display:flex; gap:4px;">
+                    <button onclick="runCode()" style="background: #1a4d1a; flex:1;">▶ Ejecutar</button>
+                    <button onclick="clearEditor()" style="flex:0.4;">🧽 Limpiar</button>
                 </div>
             </div>
         </div>
 
         <div id="console-panel">
-            <div class="panel-label">Salida <button onclick="clearOutput()" style="background:none; border:none; color:red;">🧹 Limpiar</button></div>
+            <div class="panel-label">Salida</div>
             <div id="output"></div>
+            <div class="console-controls">
+                <button onclick="clearAll()" style="color:#ff4444; width:100%;">🧹 Limpiar Todo</button>
+            </div>
         </div>
     </div>
     
@@ -111,82 +129,22 @@ button, select, input { background:#222; color:#ddd; border:1px solid #333; padd
 </div>
 
 <script>
-const elCode = document.getElementById('code'), elGhost = document.getElementById('code-ghost'), elLines = document.getElementById('line-numbers'),
-      elErrorBox = document.getElementById('error-highlight'), elOutput = document.getElementById('output'), elExplorer = document.getElementById('explorer'),
+// --- VARIABLES GLOBALES ---
+const elCode = document.getElementById('code'), elLines = document.getElementById('line-numbers'),
+      elOutput = document.getElementById('output'), elExplorer = document.getElementById('explorer'),
       elVisual = document.getElementById('visual-box'), elInput = document.getElementById('input-line'), elCtx = document.getElementById('context-menu');
 
-let state = { path: localStorage.getItem('path') || '/sdcard', file: null, fExp: localStorage.getItem('fExp') || '14', fEd: localStorage.getItem('fEd') || '14', isGrid: false, clipboard: null };
+let state = { 
+    path: localStorage.getItem('path') || '/sdcard', 
+    file: null, 
+    fExp: localStorage.getItem('fExp') || '14', 
+    fEd: localStorage.getItem('fEd') || '14', 
+    isGrid: false, 
+    clipboard: null 
+};
 
-// --- GESTIÓN DE ARCHIVOS ---
-function setupLongPress(element, fileObj) {
-    let timer;
-    element.addEventListener('touchstart', (e) => {
-        timer = setTimeout(() => showContext(e.touches[0].clientX, e.touches[0].clientY, fileObj), 600);
-    });
-    element.addEventListener('touchend', () => clearTimeout(timer));
-}
+// --- GESTIÓN DE ARCHIVOS (REPARADA) ---
 
-function showContext(x, y, file) {
-    elCtx.style.display = 'block';
-    elCtx.style.left = x + 'px'; elCtx.style.top = y + 'px';
-    elCtx.innerHTML = `
-        <div onclick="fm_rename('${file.path}')">✏️ Renombrar</div>
-        <div onclick="fm_copy('${file.path}')">📋 Copiar</div>
-        <div onclick="fm_move('${file.path}')">✂️ Mover</div>
-        <div onclick="fm_delete('${file.path}')" style="color:red">🗑️ Eliminar</div>
-        <div onclick="fm_props('${file.path}')">ℹ️ Propiedades</div>
-    `;
-    if(state.clipboard) elCtx.innerHTML += `<div onclick="fm_paste()" style="background:#224">📥 Pegar aquí</div>`;
-}
-
-function hideContext() { elCtx.style.display = 'none'; }
-
-async function showCreateMenu() {
-    const name = prompt("Nombre del nuevo archivo o carpeta:");
-    if(!name) return;
-    const type = confirm("¿Es una carpeta? (Cancelar para Archivo)") ? 'dir' : 'file';
-    await fetch('/api/create', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ path: state.path + '/' + name, type }) });
-    loadDir();
-}
-
-async function fm_delete(p) { if(confirm("¿Eliminar?")) { await fetch('/api/delete?path=' + encodeURIComponent(p)); loadDir(); } }
-async function fm_rename(p) { 
-    const n = prompt("Nuevo nombre:", p.split('/').pop());
-    if(n) { await fetch('/api/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ old: p, new: state.path+'/'+n })}); loadDir(); }
-}
-function fm_copy(p) { state.clipboard = { action: 'copy', path: p }; alert("Copiado al portapapeles"); }
-function fm_move(p) { state.clipboard = { action: 'move', path: p }; alert("Listo para mover"); }
-async function fm_paste() {
-    await fetch('/api/paste', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ ...state.clipboard, dest: state.path }) });
-    state.clipboard = null; loadDir();
-}
-async function fm_props(p) { 
-    const res = await fetch('/api/props?path=' + encodeURIComponent(p));
-    const data = await res.json();
-    alert(`Ruta: ${data.path}\nTamaño: ${data.size}\nModificado: ${data.mtime}`);
-}
-
-// --- NÚMEROS Y FUENTES ---
-function updateLines() {
-    const lines = elCode.value.split('\n');
-    let numbersHTML = '';
-    const fontSize = parseInt(state.fEd);
-    const lineHeight = fontSize * 1.4;
-    elCode.style.lineHeight = lineHeight + 'px'; elGhost.style.lineHeight = lineHeight + 'px';
-    elGhost.style.width = elCode.clientWidth + 'px'; elGhost.innerHTML = '';
-    let topPos = 10; 
-    lines.forEach((txt, i) => {
-        const span = document.createElement('span');
-        span.style.display = 'block'; span.textContent = txt || ' '; elGhost.appendChild(span);
-        numbersHTML += `<div class="ln-num" style="top:${topPos}px; font-size:${fontSize}px; height:${span.offsetHeight}px;">${i+1}</div>`;
-        topPos += span.offsetHeight;
-    });
-    elLines.innerHTML = numbersHTML; syncScroll();
-}
-
-function syncScroll() { elLines.style.top = `-${elCode.scrollTop}px`; elErrorBox.style.top = `-${elCode.scrollTop}px`; }
-
-// --- EXPLORADOR Y APERTURA ---
 async function loadDir() {
     try {
         const res = await fetch('/api/list?path=' + encodeURIComponent(state.path));
@@ -196,12 +154,88 @@ async function loadDir() {
             const div = document.createElement('div');
             div.className = 'file-item';
             div.innerHTML = `<span>${f.type === 'dir' ? '📁' : '📄'}</span> <div>${f.name}</div>`;
-            div.onclick = () => f.type === 'dir' ? (state.path = f.path, localStorage.setItem('path', state.path), loadDir()) : openFile(f.path);
+            div.onclick = () => f.type === 'dir' ? changeDir(f.path) : openFile(f.path);
+            
+            // Eventos para menú contextual (Clic derecho y Long Press)
+            div.oncontextmenu = (e) => { e.preventDefault(); showContext(e.clientX, e.clientY, f); };
             setupLongPress(div, f);
+            
             elExplorer.appendChild(div);
         });
-    } catch(e) {}
+    } catch(e) { elOutput.innerHTML += "Error al listar directorio.\n"; }
 }
+
+function changeDir(newPath) {
+    state.path = newPath;
+    localStorage.setItem('path', state.path);
+    loadDir();
+}
+
+async function createFile() {
+    const name = prompt("Nombre del archivo en: " + state.path);
+    if(!name) return;
+    const fullPath = state.path + (state.path.endsWith('/') ? '' : '/') + name;
+    await fetch('/api/create', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ path: fullPath, type: 'file' })});
+    loadDir();
+}
+
+async function createFolder() {
+    const name = prompt("Nombre de la carpeta en: " + state.path);
+    if(!name) return;
+    const fullPath = state.path + (state.path.endsWith('/') ? '' : '/') + name;
+    await fetch('/api/create', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ path: fullPath, type: 'dir' })});
+    loadDir();
+}
+
+// --- FUNCIONES DEL MENÚ CONTEXTUAL (REINSTALADAS) ---
+
+function showContext(x, y, file) {
+    elCtx.style.display = 'block';
+    elCtx.style.left = x + 'px'; elCtx.style.top = y + 'px';
+    elCtx.innerHTML = `
+        <div onclick="fm_rename('${file.path}')">✏️ Renombrar</div>
+        <div onclick="fm_copy('${file.path}')">📋 Copiar</div>
+        <div onclick="fm_delete('${file.path}')" style="color:#ff6666">🗑️ Eliminar</div>
+        <div onclick="fm_info('${file.path}')">ℹ️ Propiedades</div>
+    `;
+    if(state.clipboard) elCtx.innerHTML += `<div onclick="fm_paste()" style="background:#1a3a5a">📥 Pegar aquí</div>`;
+}
+
+async function fm_delete(p) {
+    if(!confirm("¿Eliminar definitivamente?")) return;
+    await fetch('/api/delete', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ path: p })});
+    loadDir();
+}
+
+async function fm_rename(p) {
+    const newName = prompt("Nuevo nombre:");
+    if(!newName) return;
+    await fetch('/api/rename', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ path: p, newName: newName })});
+    loadDir();
+}
+
+function fm_copy(p) { state.clipboard = p; alert("Copiado al portapapeles"); }
+
+async function fm_paste() {
+    if(!state.clipboard) return;
+    await fetch('/api/paste', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ source: state.clipboard, targetDir: state.path })});
+    loadDir();
+}
+
+function fm_info(p) {
+    alert("Ruta: " + p + "\nUbicación actual: " + state.path);
+}
+
+// --- UTILIDADES ---
+function setupLongPress(element, fileObj) {
+    let timer;
+    element.addEventListener('touchstart', (e) => {
+        timer = setTimeout(() => showContext(e.touches[0].clientX, e.touches[0].clientY, fileObj), 600);
+    });
+    element.addEventListener('touchend', () => clearTimeout(timer));
+}
+
+function hideContext() { elCtx.style.display = 'none'; }
 
 async function openFile(p) {
     const res = await fetch('/api/open?file=' + encodeURIComponent(p));
@@ -211,48 +245,56 @@ async function openFile(p) {
     updateLines();
 }
 
+async function saveFile() {
+    if(!state.file) return alert("Abre un archivo primero");
+    await fetch('/api/save', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ file: state.file, content: elCode.value }) });
+    elOutput.innerHTML = "✅ Guardado: " + state.file + "\n" + elOutput.innerHTML;
+}
+
 async function runCode() {
-    const code = elCode.value; if(!code.trim()) return;
-    if(state.file && state.file.endsWith('.html')) { elVisual.srcdoc = code; elOutput.innerHTML = "Gráfico actualizado."; return; }
+    if(!elCode.value.trim()) return;
     elOutput.innerHTML = "Ejecutando...\n";
     try {
-        await fetch('/api/save', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ file: state.file || '/sdcard/pru.py', content: code }) });
-        const res = await fetch('/api/run', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ file: state.file || '/sdcard/pru.py' }) });
-        const result = await res.text();
-        elOutput.innerHTML = `<pre style="color:#cfe;">${result}</pre>`;
-        const m = result.match(/line (\d+)/i);
-        if(m) markError(parseInt(m[1]));
-    } catch(e) {}
+        await saveFile();
+        const res = await fetch('/api/run', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ file: state.file }) });
+        elOutput.innerHTML += await res.text();
+    } catch(e) { elOutput.innerHTML += "Error de ejecución.\n"; }
 }
 
-function markError(n) {
-    const t = elLines.querySelectorAll('.ln-num')[n-1];
-    if(t) { elErrorBox.innerHTML = `<div class="error-line" style="top:${t.style.top}; height:${t.offsetHeight}px"></div>`; }
+function updateLines() {
+    const lines = elCode.value.split('\n');
+    let numbersHTML = '';
+    lines.forEach((_, i) => numbersHTML += `<div>${i+1}</div>`);
+    elLines.innerHTML = numbersHTML;
+    syncScroll();
 }
 
-// --- UI HELPERS ---
+function syncScroll() { elLines.scrollTop = elCode.scrollTop; }
+function clearAll() { elOutput.innerHTML = ''; elVisual.srcdoc = ''; }
+function clearEditor() { elCode.value = ''; updateLines(); }
+function sendInput() { elOutput.innerHTML += ">> " + elInput.value + "\n"; elInput.value = ''; }
+function resetPath() { state.path = '/sdcard'; loadDir(); }
+function goBack() { 
+    let parts = state.path.split('/');
+    if(parts.length > 2) { parts.pop(); changeDir(parts.join('/') || '/'); }
+}
+function toggleExplorerMode() { state.isGrid = !state.isGrid; elExplorer.classList.toggle('grid-mode', state.isGrid); loadDir(); }
+
 function initFonts() {
     const sExp = document.getElementById('explorerFontSelect'), sEd = document.getElementById('editorFontSelect');
-    for(let i=10; i<=30; i++) { sExp.add(new Option(`Exp: ${i}px`, i)); sEd.add(new Option(`Ed: ${i}px`, i)); }
+    for(let i=10; i<=30; i++) { sExp.add(new Option(i + "px", i)); sEd.add(new Option(i + "px", i)); }
     sExp.value = state.fExp; sEd.value = state.fEd;
     changeExpFont(state.fExp); changeEdFont(state.fEd);
 }
 function changeExpFont(v) { elExplorer.style.fontSize = v + 'px'; state.fExp = v; localStorage.setItem('fExp', v); }
 function changeEdFont(v) { elCode.style.fontSize = v + 'px'; state.fEd = v; localStorage.setItem('fEd', v); updateLines(); }
-function clearEditor() { elCode.value = ''; updateLines(); }
-function clearOutput() { elOutput.innerHTML = ''; elErrorBox.innerHTML = ''; }
-function sendInput() { elOutput.innerHTML += `>> ${elInput.value}\n`; elInput.value = ''; }
-function toggleExplorerMode() { state.isGrid = !state.isGrid; elExplorer.classList.toggle('grid-mode', state.isGrid); loadDir(); }
+
 function toggleVisual() { 
     const v = document.getElementById('visual-panel');
     v.style.display = v.style.display === 'none' ? 'block' : 'none';
-    document.getElementById('top-section').style.height = v.style.display === 'none' ? '100%' : '50%';
 }
-function resetPath() { state.path = '/sdcard'; loadDir(); }
-function goBack() { let p = state.path.split('/'); if(p.length > 2) { p.pop(); state.path = p.join('/'); loadDir(); } }
 
 initFonts(); loadDir();
-new ResizeObserver(updateLines).observe(elCode);
 </script>
 </body>
 </html>
